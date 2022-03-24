@@ -60,7 +60,7 @@ void setup(){
 	}
 
 void loop(){
-	if(digitalRead(start) == HIGH){
+	if(digitalRead(start) == LOW){
 		offset = 0;
 		
 		while (score < 99){
@@ -93,7 +93,7 @@ void loop(){
 			pollTime = duration - offset;
 			for(int i = 0; i < pollTime; i++){
 				delay(1);
-				if(digitalRead(action) == HIGH){
+				if(digitalRead(action) == LOW){
 						success = true;
 						break;
 					}
