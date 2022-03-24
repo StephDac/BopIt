@@ -30,4 +30,5 @@ void loop() {
   delay(1000);
 }
 //Stephanie da Costa was here
-//Kevin Lopez 
+//Tim was also here
+//Kevin Lopez is also here
