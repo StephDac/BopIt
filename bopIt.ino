@@ -21,7 +21,10 @@ const int failLight = 13;
 bool success;
 int randomNum;
 long action;
-int frequency;
+int bopFrequency[3] = {400,800,1600};
+int slideFrequency[3] = {1600,800,400};
+int flipFlopFrequency[3] = {1600,400,1600};
+int* frequency;
 int score;
 const int duration = 5000;
 int offset;
@@ -69,25 +72,29 @@ void loop(){
 			//Pick Action
 			randomNum = random(0,2);
 			
-			//Output sound
+			//Set variables based on action
 			switch(randomNum){
 				//Bop-It
 				case 0:
-					frequency = 400;
+					frequency = bopFrequency;
 					action = A2;
 				break;
 				//Slide-It
 				case 1:
-					frequency = 800;
+					frequency = slideFrequency;
 					action = A3;
 				break;
 				//Flip-Flop-It
 				case 2:
-					frequency = 1600;
+					frequency = flipFlopFrequency;
 					action = A4;
 				break;
 				}
-			tone(sound, frequency, 1000);
+				
+			//Play sound
+			for(int i = 0; i < 3; i++){
+				tone(sound, frequency[i], 333);
+				}
 		
 			//Poll sensor for a time
 			pollTime = duration - offset;
