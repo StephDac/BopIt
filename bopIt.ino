@@ -39,90 +39,95 @@ void updateScoreDisplay(const int scoreDigit[4], int remainder){
   }
   
 void setup(){
-	//Define Inputs
-	pinMode(start, INPUT);
-	
-	pinMode(bopIt, INPUT);
-	pinMode(slideIt, INPUT);
-	pinMode(flipFlopIt, INPUT);
-	
-	//Define Outputs
-	pinMode(scoreDigit0[0],OUTPUT);
-	pinMode(scoreDigit0[1],OUTPUT);
-	pinMode(scoreDigit0[2],OUTPUT);
-	pinMode(scoreDigit0[3],OUTPUT);
-	
-	pinMode(scoreDigit1[0],OUTPUT);
-	pinMode(scoreDigit1[1],OUTPUT);
-	pinMode(scoreDigit1[2],OUTPUT);
-	pinMode(scoreDigit1[3],OUTPUT);
-	
-	pinMode(sound,OUTPUT);
-	
-	randomSeed(analogRead(A0));
-	}
+  //Define Inputs
+  pinMode(start, INPUT);
+  
+  pinMode(bopIt, INPUT);
+  pinMode(slideIt, INPUT);
+  pinMode(flipFlopIt, INPUT);
+  
+  //Define Outputs
+  pinMode(scoreDigit0[0],OUTPUT);
+  pinMode(scoreDigit0[1],OUTPUT);
+  pinMode(scoreDigit0[2],OUTPUT);
+  pinMode(scoreDigit0[3],OUTPUT);
+  
+  pinMode(scoreDigit1[0],OUTPUT);
+  pinMode(scoreDigit1[1],OUTPUT);
+  pinMode(scoreDigit1[2],OUTPUT);
+  pinMode(scoreDigit1[3],OUTPUT);
+
+  pinMode(successLight, OUTPUT);
+  pinMode(failLight, OUTPUT);
+  
+  pinMode(sound,OUTPUT);
+  
+  randomSeed(analogRead(A0));
+  }
 
 void loop(){
-	if(digitalRead(start) == LOW){
-		offset = 0;
-		
-		while (score < 99){
-			success = false;
-			
-			//Pick Action
-			randomNum = random(0,2);
-			
-			//Set variables based on action
-			switch(randomNum){
-				//Bop-It
-				case 0:
-					frequency = bopFrequency;
-					action = A2;
-				break;
-				//Slide-It
-				case 1:
-					frequency = slideFrequency;
-					action = A3;
-				break;
-				//Flip-Flop-It
-				case 2:
-					frequency = flipFlopFrequency;
-					action = A4;
-				break;
-				}
-				
-			//Play sound
-			for(int i = 0; i < 3; i++){
-				tone(sound, frequency[i], 333);
-				}
-		
-			//Poll sensor for a time
-			pollTime = duration - offset;
-			for(int i = 0; i < pollTime; i++){
-				delay(1);
-				if(digitalRead(action) == LOW){
-						success = true;
-						break;
-					}
-				}
-		
-			//Display success/fail and increment score
-			if(success == true){
-				score++;
-				digitalWrite(successLight, HIGH);
-				delay(1000);
-				digitalWrite(successLight, LOW);
-				offset += 25;
-				updateScoreDisplay(scoreDigit0, score % 10);
-				updateScoreDisplay(scoreDigit1, score / 10);
-			}else{
-				digitalWrite(failLight, HIGH);
-				delay(1000);
-				digitalWrite(failLight, LOW);
-				}
-			
-		
-			}
-		}
-	
-	}
+  if(digitalRead(start) == LOW){
+    offset = 0;
+    score = 0;
+    
+    while (score < 99){
+      success = false;
+      
+      //Pick Action
+      randomNum = random(0,3);
+      
+      //Set variables based on action
+      switch(randomNum){
+        //Bop-It
+        case 0:
+          frequency = bopFrequency;
+          action = A2;
+        break;
+        //Slide-It
+        case 1:
+          frequency = slideFrequency;
+          action = A3;
+        break;
+        //Flip-Flop-It
+        case 2:
+          frequency = flipFlopFrequency;
+          action = A4;
+        break;
+        }
+        
+      //Play sound
+      for(int i = 0; i < 3; i++){
+        tone(sound, frequency[i], 333);
+        delay(400);
+        }
+    
+      //Poll sensor for a time
+      pollTime = duration - offset;
+      for(int i = 0; i < pollTime; i++){
+        delay(1);
+        if(digitalRead(action) == LOW){
+            success = true;
+            break;
+          }
+        }
+    
+      //Display success/fail and increment score
+      if(success == true){
+        score++;
+        digitalWrite(successLight, HIGH);
+        delay(1000);
+        digitalWrite(successLight, LOW);
+        offset += 25;
+        updateScoreDisplay(scoreDigit0, score % 10);
+        updateScoreDisplay(scoreDigit1, score / 10);
+      }else{
+        digitalWrite(failLight, HIGH);
+        delay(1000);
+        digitalWrite(failLight, LOW);
+        }
+      
+    
+      }
+    }
+  
+  }
