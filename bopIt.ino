@@ -3,8 +3,9 @@ const int start = A1;
 
 //Define Action pins
 const int bopIt = A2;
-const int slideIt = A3;
-const int flipFlopIt = A4;
+const int flipFlopIt = A3;
+const int slideIt = A4;
+
 
 //Define score pins
 const int scoreDigit0[4] = {1,2,3,4};
@@ -34,7 +35,7 @@ int pollTime;
 
 //Function to update the score display digits
 void updateScoreDisplay(const int scoreDigit[4], int remainder){
-  for(int i = 3; i >= 0; i--){
+  for(int i = 0; i < 4; i++){
     digitalWrite(scoreDigit[i], remainder % 2);
     remainder /= 2; 
     }
@@ -83,19 +84,19 @@ void loop(){
         //Bop-It
         case 0:
           frequency = bopFrequency;
-          action = A2;
+          action = bopIt;
           targetState = LOW;
         break;
         //Slide-It
         case 1:
           frequency = slideFrequency;
-          action = A3;
+          action = slideIt;
           targetState = !digitalRead(slideIt);
         break;
         //Flip-Flop-It
         case 2:
           frequency = flipFlopFrequency;
-          action = A4;
+          action = flipFlopIt;
           targetState = !digitalRead(flipFlopIt);
         break;
         }
