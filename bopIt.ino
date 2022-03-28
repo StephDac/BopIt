@@ -19,6 +19,7 @@ const int failLight = 13;
 
 //Variables to keep track of stuff during the program
 bool success;
+bool targetState;
 int randomNum;
 long action;
 int bopFrequency[3] = {400,800,1600};
@@ -29,6 +30,7 @@ int score;
 const int duration = 5000;
 int offset;
 int pollTime;
+
 
 //Function to update the score display digits
 void updateScoreDisplay(const int scoreDigit[4], int remainder){
@@ -82,16 +84,19 @@ void loop(){
         case 0:
           frequency = bopFrequency;
           action = A2;
+          targetState = LOW;
         break;
         //Slide-It
         case 1:
           frequency = slideFrequency;
           action = A3;
+          targetState = !digitalRead(slideIt);
         break;
         //Flip-Flop-It
         case 2:
           frequency = flipFlopFrequency;
           action = A4;
+          targetState = !digitalRead(flipFlopIt);
         break;
         }
         
@@ -105,7 +110,7 @@ void loop(){
       pollTime = duration - offset;
       for(int i = 0; i < pollTime; i++){
         delay(1);
-        if(digitalRead(action) == LOW){
+        if(digitalRead(action) == targetState){
             success = true;
             break;
           }
