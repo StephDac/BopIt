@@ -72,6 +72,8 @@ void loop(){
   if(digitalRead(start) == LOW){
     offset = 0;
     score = 0;
+    updateScoreDisplay(scoreDigit0, score % 10);
+    updateScoreDisplay(scoreDigit1, score / 10);
     
     while (score < 99){
       success = false;
@@ -120,16 +122,18 @@ void loop(){
       //Display success/fail and increment score
       if(success == true){
         score++;
+        updateScoreDisplay(scoreDigit0, score % 10);
+        updateScoreDisplay(scoreDigit1, score / 10);
         digitalWrite(successLight, HIGH);
         delay(1000);
         digitalWrite(successLight, LOW);
         offset += 25;
-        updateScoreDisplay(scoreDigit0, score % 10);
-        updateScoreDisplay(scoreDigit1, score / 10);
+        
       }else{
         digitalWrite(failLight, HIGH);
         delay(1000);
         digitalWrite(failLight, LOW);
+        break;
         }
       
     
